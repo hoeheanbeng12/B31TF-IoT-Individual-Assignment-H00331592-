@@ -753,7 +753,7 @@
         "type": "function",
         "z": "572a4fbb.49dd48",
         "name": "Chart Array for Chart.js",
-        "func": "// Data comes from MongoDB as \"newest first\", but\n// charts need \"oldest first\". So we must reverse it.\nmsg.payload.reverse();\n\n// Create separate arrays for each line on the chart\nvar tempSeries = [];\nvar humiditySeries = [];\n\n// Loop through each record and format it for the chart\nmsg.payload.forEach(function(record) {\n    // Convert the Epoch time back into a Date object\n    var timestamp = new Date(record.time); \n\n    // Add data to our arrays\n    tempSeries.push({ \"x\": timestamp, \"y\": record.temp });\n    humiditySeries.push({ \"x\": timestamp, \"y\": record.humidity });\n});\n\n// THIS IS THE OLD, DEPRECATED FORMAT YOUR CHART NEEDS\n// We must put our two series *inside* a single object.\nvar chartData = [\n    {\n        \"series\": [\"Temperature\", \"Humidity\"], // Series names as an array\n        \"data\": [ tempSeries, humiditySeries ], // Data as an array of arrays\n        \"labels\": [\"Temperature\", \"Humidity\"] // Labels as an array\n    }\n];\n\n// Send this old-formatted data to the chart\nmsg.payload = chartData;\nreturn msg;",
+        "func": "msg.payload.reverse();\n\n\nvar tempSeries = [];\nvar humiditySeries = [];\n\n\nmsg.payload.forEach(function(record) {\n    \n    var timestamp = new Date(record.time); \n\n    tempSeries.push({ \"x\": timestamp, \"y\": record.temp });\n    humiditySeries.push({ \"x\": timestamp, \"y\": record.humidity });\n});\n\n\nvar chartData = [\n    {\n        \"series\": [\"Temperature\", \"Humidity\"], \n        \"data\": [ tempSeries, humiditySeries ],\n        \"labels\": [\"Temperature\", \"Humidity\"]\n    }\n];\n\nmsg.payload = chartData;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1371,7 +1371,7 @@
         "wires": []
     },
     {
-        "id": "f3ee8ecee709cd33",
+        "id": "a73b6e702fa67b63",
         "type": "global-config",
         "env": [],
         "modules": {
